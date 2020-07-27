@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="50dp">
+
+        <Button
+            android:id="@+id/groupBreakfast"
+            android:onClick="onClickBreakfast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/group1"
+            android:layout_marginBottom="8dp"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/groupLunch"
+            android:onClick="onClickLunch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/group2"
+            android:textSize="20sp"/>
+
+        <Button
+            android:id="@+id/groupDinner"
+            android:onClick="onClickDinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/group3"
+            android:textSize="20sp"
+            android:layout_marginTop="8dp"/>
+
+        <Button
+            android:id="@+id/groupSalads"
+            android:onClick="onClickSalads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/group4"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
