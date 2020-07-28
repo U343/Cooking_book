@@ -5,13 +5,16 @@ public final class DataRecipeContract {
 	//Классы внутри и есть таблицы
 	//DataRecipeContract - что то вроде хранилища для шаблонов таблиц
 	
+	public static final int         TABLE_VERSION = 1;
+	public static final String      DB_NAME = "dishes";
+	
 	private DataRecipeContract() {
 	}
 	
 	public static final class RecipeEntry {
 		//Это основная таблица для хранения рецептов
 		
-		public static final String      TABLE_NAME = "recipes";
+		public static final String         TABLE_NAME = "recipes";
 		
 		//Это поля таблицы, ее колонки другими словами
 		//В них будет храниться информация о рецептах
