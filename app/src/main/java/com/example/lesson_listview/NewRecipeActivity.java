@@ -83,9 +83,9 @@ public class NewRecipeActivity extends AppCompatActivity {
 		String textIngredients;  // Ингредиенты блюда
 		String textRecipe;       // Рецепт блюда
 		// Получаем значения из EditText
-		textName = nameRecipe.getText().toString();
-		textIngredients = ingredients.getText().toString();
-		textRecipe = recipe.getText().toString();
+		textName = nameRecipe.getText().toString().trim();  // trim() обрезает пробелы в начале и конце
+		textIngredients = ingredients.getText().toString().trim();
+		textRecipe = recipe.getText().toString().trim();
 		if ("".equals(textName)) { // Если хоть какой-то не зполнен, то вызываем тост с предупреждением
 			Toast toast = Toast.makeText(getApplicationContext(), "Укажите название", Toast.LENGTH_SHORT);
 			toast.show();

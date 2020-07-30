@@ -8,6 +8,9 @@ public final class DataRecipeContract {
 	public static final int         TABLE_VERSION = 1;
 	public static final String      DB_NAME = "dishes";
 	
+	public static final String SCHEME = "content://";
+	public static final String AUTHORITY = "com.example.lesson_listview";
+	
 	private DataRecipeContract() {
 	}
 	
@@ -18,7 +21,7 @@ public final class DataRecipeContract {
 		
 		//Это поля таблицы, ее колонки другими словами
 		//В них будет храниться информация о рецептах
-		public static final String      KEY_ID = "id_recipe";
+		public static final String      KEY_ID = "_id";
 		public static final String      KEY_NAME = "name_recipe";
 		public static final String      KEY_INGREDIENTS = "ingredients";
 		public static final String      TABLE_RECIPE = "recipe";
