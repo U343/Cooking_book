@@ -1,5 +1,8 @@
 package com.example.lesson_listview;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.lesson_listview.data.DataRecipeContract;
+import com.example.lesson_listview.data.DataRecipeContract.RecipeEntry;
 
 public class NewRecipeActivity extends AppCompatActivity {
 	Button          buttonSave; // кнопка сохранениея
@@ -54,15 +57,15 @@ public class NewRecipeActivity extends AppCompatActivity {
 				if (!TextUtils.isEmpty(selectedGroup)) {
 					if (selectedGroup.equals("Завтрак")) {
 						// Ссылаюсь на константы из data.DataRecipeContract
-						group = DataRecipeContract.RecipeEntry.BREAKFAST_GROUP;
+						group = RecipeEntry.BREAKFAST_GROUP;
 					} else if (selectedGroup.equals("Обед")) {
-						group = DataRecipeContract.RecipeEntry.LUNCH_GROUP;
+						group = RecipeEntry.LUNCH_GROUP;
 					} else if (selectedGroup.equals("Ужин")) {
-						group = DataRecipeContract.RecipeEntry.DINNER_GROUP;
+						group = RecipeEntry.DINNER_GROUP;
 					} else if (selectedGroup.equals("Салаты")) {
-						group = DataRecipeContract.RecipeEntry.SALADS_GROUP;
+						group = RecipeEntry.SALADS_GROUP;
 					} else {
-						group = DataRecipeContract.RecipeEntry.UNKNOWN_GROUP;
+						group = RecipeEntry.UNKNOWN_GROUP;
 					}
 				} else {
 					group = 0;
@@ -79,9 +82,10 @@ public class NewRecipeActivity extends AppCompatActivity {
 	// Метод onClick для кнопки сохранения. Функция проверяет заполненность EditText
 	// и если все нормально, то завершает работу activity
 	public void saveRecipeClick(View view) {
-		String textName;         // Имя блюда
-		String textIngredients;  // Ингредиенты блюда
-		String textRecipe;       // Рецепт блюда
+		String          textName;         // Имя блюда
+		String          textIngredients;  // Ингредиенты блюда
+		String          textRecipe;       // Рецепт блюда
+		ContentValues   contentValues;
 		// Получаем значения из EditText
 		textName = nameRecipe.getText().toString().trim();  // trim() обрезает пробелы в начале и конце
 		textIngredients = ingredients.getText().toString().trim();
@@ -98,6 +102,23 @@ public class NewRecipeActivity extends AppCompatActivity {
 		} else if (group == 0) {
 			Toast toast = Toast.makeText(getApplicationContext(), "Укажите категорию рецепта", Toast.LENGTH_SHORT);
 			toast.show();
+		} else {
+			// Готовим данные для помещения в БД
+			contentValues = new ContentValues();
+			contentValues.put(RecipeEntry.KEY_NAME, textName);
+			contentValues.put(RecipeEntry.KEY_INGREDIENTS, textIngredients);
+			contentValues.put(RecipeEntry.KEY_RECIPE, textIngredients);
+			contentValues.put(RecipeEntry.TABLE_GROUP, group);
+			
+			ContentResolver contentResolver = getContentResolver();
+			// Через ContentResolver вызываем insert из ContentResolver
+			Uri uri = contentResolver.insert(RecipeEntry.CONTENT_URI, contentValues);
+			if (uri == null) {
+				Toast.makeText(this, "Insertion of data  in the table failed for",
+						Toast.LENGTH_LONG).show();
+			} else {
+				Toast.makeText(this, "Data saved", Toast.LENGTH_LONG).show();
+			}
 		}
 	}
 }

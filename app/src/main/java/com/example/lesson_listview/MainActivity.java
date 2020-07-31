@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
 		buttonLunch = findViewById(R.id.groupLunch);
 		buttonDinner = findViewById(R.id.groupDinner);
 		buttonSalads = findViewById(R.id.groupSalads);
-}
+	}
+	
+	
 	
 	public void onClickBreakfast(View view) {
 		// Вызываю activity с карточками рецептов

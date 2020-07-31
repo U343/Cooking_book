@@ -22,7 +22,7 @@ public class RecipeDbOpenHelper extends SQLiteOpenHelper {
 				+ RecipeEntry.KEY_ID + " INTEGER PRIMARY KEY,"
 				+ RecipeEntry.KEY_NAME + " TEXT,"
 				+ RecipeEntry.KEY_INGREDIENTS + " TEXT,"
-				+ RecipeEntry.TABLE_RECIPE + " TEXT,"
+				+ RecipeEntry.KEY_RECIPE + " TEXT,"
 				+ RecipeEntry.TABLE_GROUP + " INTEGER NOT NULL" + ")";
 		db.execSQL(CREATE_RECIPE_TABLE);
 	}

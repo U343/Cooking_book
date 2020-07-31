@@ -3,24 +3,27 @@ package com.example.lesson_listview;
 public class PizzaRecipeItem {
 	private int     id;
 	private int     imageResource;
-	private String  group;
+	private int     group;
 	private String  name;
 	private String  ingredients;
 	private String  recipe;
 	
-	public PizzaRecipeItem(int id, int imageResource, String name, String ingredients, String recipe) {
+	public PizzaRecipeItem(int id, int imageResource, String name, String ingredients,
+	                       String recipe, int group) {
 		this.id = id;
 		this.name = name;
 		this.imageResource = imageResource;
 		this.ingredients = ingredients;
 		this.recipe = recipe;
+		this.group = group;
 	}
 	
-	public PizzaRecipeItem(int imageResource, String name, String ingredients, String recipe) {
-		this.imageResource = imageResource;
+	public PizzaRecipeItem(int id, String name, String ingredients, String recipe, int group) {
+		this.id = id;
 		this.name = name;
 		this.ingredients = ingredients;
 		this.recipe = recipe;
+		this.group = group;
 	}
 	
 	public PizzaRecipeItem(String name, String ingredients, String recipe) {
