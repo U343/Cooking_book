@@ -1,5 +1,6 @@
 package com.example.lesson_listview.data;
 
+import android.content.ContentResolver;
 import android.net.Uri;
 
 public final class DataRecipeContract {
@@ -41,5 +42,11 @@ public final class DataRecipeContract {
 		
 		public static final Uri         CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI,
 				TABLE_NAME);
+		
+		// Для работы с getType()
+		public static final String      CONTENT_MULTIPLE_ITEMS = ContentResolver.CURSOR_DIR_BASE_TYPE +
+				"/" + AUTHORITY + "/" + TABLE_NAME;
+		public static final String      CONTENT_SINGLE_ITEM = ContentResolver.CURSOR_ITEM_BASE_TYPE +
+				"/" + AUTHORITY + "/" + TABLE_NAME;
 	}
 }

@@ -91,16 +91,52 @@ public class RecipeContentProvider extends ContentProvider {
 	
 	@Override
 	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		return 0;
+		
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		
+		int match = uriMatcher.match(uri); // Определяем с чем нужно работать с 1 или 2
+		switch (match) {
+			case MEMBERS:
+				return db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+			case MEMBER_ID:
+				selection = RecipeEntry.KEY_ID + "=?";
+				selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+				return db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+			default:
+				throw new IllegalArgumentException("Can't delete this Uri" + uri);
+		}
 	}
 	
 	@Override
 	public int update(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
-		return 0;
+		
+		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+		
+		int match = uriMatcher.match(uri); // Определяем с чем нужно работать с 1 или 2
+		switch (match) {
+			case MEMBERS:
+				return db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+			case MEMBER_ID:
+				selection = RecipeEntry.KEY_ID + "=?";
+				selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+				return db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+			default:
+				throw new IllegalArgumentException("Can't update this Uri" + uri);
+		}
 	}
 	
 	@Override
 	public String getType(Uri uri) {
-		return null;
+		
+		int match = uriMatcher.match(uri); // Определяем с чем нужно работать с 1 или 2
+		
+		switch (match) {
+			case MEMBERS:
+				return RecipeEntry.CONTENT_MULTIPLE_ITEMS;
+			case MEMBER_ID:
+				return RecipeEntry.CONTENT_SINGLE_ITEM;
+			default:
+				throw new IllegalArgumentException("Can't getType this Uri" + uri);
+		}
 	}
 }

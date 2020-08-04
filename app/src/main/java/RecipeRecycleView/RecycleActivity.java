@@ -20,7 +20,6 @@ import com.example.lesson_listview.R;
 import com.example.lesson_listview.data.DataRecipeContract.RecipeEntry;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class RecycleActivity extends AppCompatActivity {
 	// constants for DB
@@ -120,20 +119,19 @@ public class RecycleActivity extends AppCompatActivity {
 				null
 		);
 		
-		int idIndex = cursor.getColumnIndex(RecipeEntry.KEY_ID);
-		int idName = cursor.getColumnIndex(RecipeEntry.KEY_NAME);
-		int idIngredients = cursor.getColumnIndex(RecipeEntry.KEY_INGREDIENTS);
-		int idRecipe = cursor.getColumnIndex(RecipeEntry.KEY_RECIPE);
-		int idGroup = cursor.getColumnIndex(RecipeEntry.TABLE_GROUP);
+		int idColumnIndex = cursor.getColumnIndex(RecipeEntry.KEY_ID);
+		int nameColumnIndex = cursor.getColumnIndex(RecipeEntry.KEY_NAME);
+		int ingredientsColumnIndex = cursor.getColumnIndex(RecipeEntry.KEY_INGREDIENTS);
+		int recipeColumnIndex = cursor.getColumnIndex(RecipeEntry.KEY_RECIPE);
+		int groupColumnIndex = cursor.getColumnIndex(RecipeEntry.TABLE_GROUP);
 		
 		while (cursor.moveToNext()) {
-			currentGroup = cursor.getInt(idGroup);
+			currentGroup = cursor.getInt(groupColumnIndex);
 			if (currentGroup == dish_group) {
-				currentId = cursor.getInt(idIndex);
-				currentName = cursor.getString(idName);
-				currentIngredients = cursor.getString(idIngredients);
-				currentRecipe = cursor.getString(idRecipe);
-				currentGroup = cursor.getInt(idGroup);
+				currentId = cursor.getInt(idColumnIndex);
+				currentName = cursor.getString(nameColumnIndex);
+				currentIngredients = cursor.getString(ingredientsColumnIndex);
+				currentRecipe = cursor.getString(recipeColumnIndex);
 				
 				item = new PizzaRecipeItem(currentId, currentName, currentIngredients, currentRecipe,
 						currentGroup);
