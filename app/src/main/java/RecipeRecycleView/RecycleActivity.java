@@ -2,11 +2,13 @@ package RecipeRecycleView;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,18 +20,50 @@ import com.example.lesson_listview.R;
 import com.example.lesson_listview.data.DataRecipeContract.RecipeEntry;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class RecycleActivity extends AppCompatActivity {
+	// constants for DB
+	int                         dish_group;
+	
 	RecyclerView                recyclerView;   // Поле в котором будут карточки рецептов
 	RecyclerView.Adapter        adapter;        // Основная логика RecyclerView
 	RecyclerView.LayoutManager  layoutManager;  // Связывает adapter и RecyclerView
 	ArrayList<PizzaRecipeItem>  elems = new ArrayList<>(); // Список с рецетами. PizzaRecipeItem - класс рецепта
 	Button                      buttonNew;      // Кнопка для перехода на активити для создания нового рецепта
 	
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+	protected void changeActionTitle(int group) {
+		// В зависимости от выбранной группы будет свой заголовок
+		// 0 - unknown; 1 - завтрак; 2 - обед; 3 - ужин; 4 - салат
+		switch (group) {
+			case 1:
+				setTitle(R.string.group1);
+				break;
+			case 2:
+				setTitle(R.string.group2);
+				break;
+			case 3:
+				setTitle(R.string.group3);
+				break;
+			case 4:
+				setTitle(R.string.group4);
+				break;
+			default:
+				setTitle(R.string.group0);
+		}
+	}
+	
+	@RequiresApi(api = Build.VERSION_CODES.KITKAT)
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		// Получаем группу рецепта
+		dish_group = getIntent().getIntExtra(RecipeEntry.TABLE_GROUP, 0);
+		// Устанавливаем заголовок в action Bar
+		changeActionTitle(dish_group);
 		setContentView(R.layout.activity_recycle);
+		
 		// Инициализирую переменные
 		buttonNew = findViewById(R.id.buttonNew);
 		buttonNew.setOnClickListener(new View.OnClickListener() { // Обработка нажатия
@@ -93,16 +127,18 @@ public class RecycleActivity extends AppCompatActivity {
 		int idGroup = cursor.getColumnIndex(RecipeEntry.TABLE_GROUP);
 		
 		while (cursor.moveToNext()) {
-			currentId = cursor.getInt(idIndex);
-			currentName = cursor.getString(idName);
-			currentIngredients = cursor.getString(idIngredients);
-			currentRecipe = cursor.getString(idRecipe);
 			currentGroup = cursor.getInt(idGroup);
-			
-			item = new PizzaRecipeItem(currentId, currentName, currentIngredients, currentRecipe,
-					currentGroup);
-			elems.add(item);
+			if (currentGroup == dish_group) {
+				currentId = cursor.getInt(idIndex);
+				currentName = cursor.getString(idName);
+				currentIngredients = cursor.getString(idIngredients);
+				currentRecipe = cursor.getString(idRecipe);
+				currentGroup = cursor.getInt(idGroup);
+				
+				item = new PizzaRecipeItem(currentId, currentName, currentIngredients, currentRecipe,
+						currentGroup);
+				elems.add(item);
+			}
 		}
-		
 	}
 }
