@@ -86,6 +86,10 @@ public class RecycleActivity extends AppCompatActivity {
 	protected void onStart() {
 		super.onStart();
 		elems = new ArrayList<>();
+		elems.add(new PizzaRecipeItem(
+				getResources().getString(R.string.title_pizza2),
+				getResources().getString(R.string.description_pizza1),
+				getResources().getString(R.string.recept1)));
 		arrayFiller();
 		
 		recyclerView = findViewById(R.id.recycleView);
