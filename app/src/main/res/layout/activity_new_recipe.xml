@@ -20,6 +20,15 @@
         android:hint="@string/new_name"/>
 
     <EditText
+        android:id="@+id/newDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:textSize="20sp"
+        android:maxLength="20"
+        android:hint="@string/new_description"/>
+
+    <EditText
         android:id="@+id/newIngredient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

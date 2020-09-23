@@ -73,13 +73,6 @@ public class RecycleActivity extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
-		// Тестовый элемент, чтобы из-за пустого списка не падало приложение
-		/*elems.add(new PizzaRecipeItem(               // Сейчас вроде не падает
-				getResources().getString(R.string.title_pizza2),
-				getResources().getString(R.string.description_pizza1),
-				getResources().getString(R.string.recept1)
-		));*/
-		
 	}
 	
 	@Override

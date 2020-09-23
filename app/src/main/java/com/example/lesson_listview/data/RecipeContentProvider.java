@@ -60,6 +60,8 @@ public class RecipeContentProvider extends ContentProvider {
 			default:
 				throw new IllegalArgumentException("Can't query  incorrect Uri" + uri);
 		}
+		
+		cursor.setNotificationUri(getContext().getContentResolver(), uri);
 		return cursor;
 	}
 	
@@ -82,6 +84,7 @@ public class RecipeContentProvider extends ContentProvider {
 				Log.e("InsertMethod", "Insertion of data  in the table failed for " + uri);
 				return null;
 			}
+			getContext().getContentResolver().notifyChange(uri, null);
 			return ContentUris.withAppendedId(uri, id);
 		} else {
 			throw new IllegalArgumentException("Can't query  incorrect Uri" + uri);
@@ -94,16 +97,25 @@ public class RecipeContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		
 		int match = uriMatcher.match(uri); // Определяем с чем нужно работать с 1 или 2
+		int rowsDeleted;
+		
 		switch (match) {
 			case MEMBERS:
-				return db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+				rowsDeleted = db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+				break;
 			case MEMBER_ID:
 				selection = RecipeEntry.KEY_ID + "=?";
 				selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-				return db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+				rowsDeleted = db.delete(RecipeEntry.TABLE_NAME, selection, selectionArgs);
+				break;
 			default:
 				throw new IllegalArgumentException("Can't delete this Uri" + uri);
 		}
+		
+		if (rowsDeleted != 0) {
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return rowsDeleted;
 	}
 	
 	@Override
@@ -112,16 +124,25 @@ public class RecipeContentProvider extends ContentProvider {
 		SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
 		
 		int match = uriMatcher.match(uri); // Определяем с чем нужно работать с 1 или 2
+		int rowsUpdated;
+		
 		switch (match) {
 			case MEMBERS:
-				return db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+				rowsUpdated = db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+				break;
 			case MEMBER_ID:
 				selection = RecipeEntry.KEY_ID + "=?";
 				selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-				return db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+				rowsUpdated = db.update(RecipeEntry.TABLE_NAME, values, selection, selectionArgs);
+				break;
 			default:
 				throw new IllegalArgumentException("Can't update this Uri" + uri);
 		}
+		
+		if (rowsUpdated != 0) {
+			getContext().getContentResolver().notifyChange(uri, null);
+		}
+		return rowsUpdated;
 	}
 	
 	@Override
